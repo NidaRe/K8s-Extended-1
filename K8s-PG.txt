@@ -1,0 +1,51 @@
+Windows
+https://get.helm.sh/helm-canary-windows-amd64.zip
+
+Mac
+brew install helm
+https://get.helm.sh/helm-canary-darwin-amd64.tar.gz
+
+for Linux
+https://get.helm.sh/helm-canary-linux-amd64.tar.gz
+
+Install prometheus
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install prometheus prometheus-community/prometheus
+kubectl expose deployments prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-npr
+minikube service prometheus-server-npr -n demo
+
+go-cpu-fraction-cycles
+node-disk-in-now
+
+
+Add grafana
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-release bitnami/grafana
+kubectl expose deployments my-release-grafana --type=NodePort --target-port=3000 --name=grafana-np
+
+ kubectl describe secret my-release-grafana-admin
+ kubectl get secret --namespace demo my-release-grafana-admin -o jsonpath="{.data.GF_SECURITY_ADMIN_PASSWORD}" | base64 --decode ; echo
+
+minikube service grafana-np -n demo
+
+username: admin
+Password: Secret value
+
+Settings - Add -Data Source - prometheus
+kubectl get services (Look for promethus services point to 80)
+URL
+Http : http://prometheus-server-np:80
+Save and Test
+
+
+Now create(+) -- Import -- Choose Import JSON
+Type 6417 from grafna.com
+Click Load
+In Prometheus - Choose Promethus Data Source
+Choose Import.
+
+Dashboard Is displayed with all metrics
+
+
+
