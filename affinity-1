@@ -8,5 +8,25 @@ spec:
   containers:
   - name: security-s1
     image: nginx
+  
+  
+apiVersion: v1
+kind: Pod
+metadata:
+  name: team4a
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: security
+            operator: In
+            values:
+            - "S1"
+        topologyKey: kubernetes.io/hostname
+  containers:
+  - name: pod-affinity
+    image: nginx
     
  
